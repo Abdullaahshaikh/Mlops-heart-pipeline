@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.pyc
+*.pkl
+
+cat > .gitignore << 'EOF'
+# Python
+__pycache__/
+*.pyc
+*.pkl
+.ipynb_checkpoints/
+
+# Virtual environment
+venv/
+env/
+.env
+
+# IDE
+.vscode/
+.idea/
+
+# Data files (optional — agar data nahi push karna to)
+# *.csv
