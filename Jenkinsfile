@@ -20,6 +20,13 @@ pipeline {
             }
         }
 
+        stage('Train Model') {
+            steps {
+                echo 'Training clean ML model...'
+                sh 'python3 train.py'
+            }
+        }
+
         stage('Build Docker Image') {
             steps {
                 echo 'Building Docker image...'
