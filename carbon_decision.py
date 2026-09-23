@@ -46,7 +46,7 @@ print(f"Grid carbon intensity: {carbon_intensity} gCO2eq/kWh")
 # Carbon Decision Gate
 # ==========================================
 
-if carbon_intensity > 500:
+if carbon_intensity > 700:
     print("DECISION: High grid carbon intensity - training delayed.")
     raise SystemExit(1)
 else:
