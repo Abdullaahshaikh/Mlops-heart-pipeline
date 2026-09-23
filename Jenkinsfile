@@ -9,12 +9,12 @@ pipeline {
             }
         }
 
-        stage('Carbon Decision') {
-            steps {
-                echo 'Checking carbon intensity...'
-                bat 'python carbon_decision.py'
-            }
-        }
+      stage('Carbon Decision') {
+    steps {
+        echo 'Checking carbon intensity...'
+        sh 'python3 carbon_decision.py'
+    }
+}
 
         stage('Build Docker Image') {
             steps {
