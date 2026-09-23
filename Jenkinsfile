@@ -9,6 +9,13 @@ pipeline {
             }
         }
 
+        stage('Carbon Decision') {
+            steps {
+                echo 'Checking carbon intensity...'
+                bat 'python carbon_decision.py'
+            }
+        }
+
         stage('Build Docker Image') {
             steps {
                 echo 'Docker build stage'
