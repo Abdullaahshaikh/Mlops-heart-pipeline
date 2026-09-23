@@ -22,13 +22,16 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                echo 'Docker build stage - proceeding after carbon approval'
+                echo 'Building Docker image...'
+                sh 'docker build -t green-mlops:latest .'
             }
         }
 
         stage('Run Container') {
             steps {
-                echo 'Container stage - proceeding after carbon approval'
+                echo 'Running Docker container...'
+                sh 'docker rm -f green-mlops-container || true'
+                sh 'docker run -d --name green-mlops-container -p 5000:5000 green-mlops:latest'
             }
         }
     }
