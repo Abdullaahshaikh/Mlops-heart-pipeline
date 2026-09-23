@@ -48,15 +48,19 @@ def log_production_data(input_data):
 # ===============================
 @app.route('/')
 def home():
-    return jsonify({"message": "Heart Disease MLOps API Running"})
+    return jsonify({
+        "message": "Heart Disease MLOps API Running"
+    })
 
 
 # ===============================
-# Health Check (Kubernetes Uses This)
+# Health Check
 # ===============================
 @app.route('/health')
 def health():
-    return jsonify({"status": "healthy"})
+    return jsonify({
+        "status": "healthy"
+    })
 
 
 # ===============================
@@ -66,16 +70,53 @@ def health():
 def predict():
 
     try:
-        # get input JSON
+        # Get input JSON
         data = request.get_json()
 
-        # ⭐ log production data
+        if not data:
+            return jsonify({
+                "error": "No JSON data provided"
+            }), 400
+
+        # Log original production data
         log_production_data(data)
 
-        # convert to dataframe
+        # Convert input to DataFrame
         df = pd.DataFrame([data])
 
-        # prediction
+        # Map API feature names to model feature names
+        df = df.rename(columns={
+            'cp': 'chest_pain_type',
+            'trestbps': 'resting_blood_pressure',
+            'chol': 'cholestoral',
+            'fbs': 'fasting_blood_sugar',
+            'restecg': 'rest_ecg',
+            'thalach': 'Max_heart_rate',
+            'exang': 'exercise_induced_angina',
+            'ca': 'vessels_colored_by_flourosopy',
+            'thal': 'thalassemia'
+        })
+
+        # Ensure correct feature order
+        feature_columns = [
+            'age',
+            'sex',
+            'chest_pain_type',
+            'resting_blood_pressure',
+            'cholestoral',
+            'fasting_blood_sugar',
+            'rest_ecg',
+            'Max_heart_rate',
+            'exercise_induced_angina',
+            'oldpeak',
+            'slope',
+            'vessels_colored_by_flourosopy',
+            'thalassemia'
+        ]
+
+        df = df[feature_columns]
+
+        # Prediction
         prediction = model.predict(df)
 
         return jsonify({
@@ -92,4 +133,7 @@ def predict():
 # Run App
 # ===============================
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
+    app.run(
+        host="0.0.0.0",
+        port=5000
+    )
