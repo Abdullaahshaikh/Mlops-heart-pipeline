@@ -27,9 +27,7 @@ response = requests.get(
 
 data = response.json()
 
-# Debug / validation
 print("API Status:", response.status_code)
-print("API Response:", data)
 
 if response.status_code != 200:
     raise Exception(f"Electricity Maps API error: {data}")
@@ -45,16 +43,11 @@ print(f"Latest training CO2: {latest_co2:.8e} kg")
 print(f"Grid carbon intensity: {carbon_intensity} gCO2eq/kWh")
 
 # ==========================================
-# Carbon-Aware Decision
+# Carbon Decision Gate
 # ==========================================
 
 if carbon_intensity > 500:
-    print(
-        "DECISION: High grid carbon intensity - "
-        "consider delaying training."
-    )
+    print("DECISION: High grid carbon intensity - training delayed.")
+    raise SystemExit(1)
 else:
-    print(
-        "DECISION: Grid carbon intensity acceptable - "
-        "training can proceed."
-    )
+    print("DECISION: Grid carbon intensity acceptable - training can proceed.")
