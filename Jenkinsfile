@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    environment {
+        ELECTRICITY_MAPS_API_KEY = credentials('electricity_maps_api_key')
+    }
+
     stages {
 
         stage('Clone') {
@@ -9,12 +13,12 @@ pipeline {
             }
         }
 
-      stage('Carbon Decision') {
-    steps {
-        echo 'Checking carbon intensity...'
-        sh 'python3 carbon_decision.py'
-    }
-}
+        stage('Carbon Decision') {
+            steps {
+                echo 'Checking carbon intensity...'
+                sh 'python3 carbon_decision.py'
+            }
+        }
 
         stage('Build Docker Image') {
             steps {
