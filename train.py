@@ -12,7 +12,7 @@ from sklearn.metrics import accuracy_score, confusion_matrix, classification_rep
 # ===============================
 # 1. Load Dataset
 # ===============================
-df = pd.read_csv("processed_heart.csv")
+df = pd.read_csv("processed_heart_clean.csv")
 
 X = df.drop("target", axis=1)
 y = df["target"]
