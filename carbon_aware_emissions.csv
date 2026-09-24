@@ -1,2 +1,1 @@
-timestamp,grid_carbon_intensity,training_co2,decision
-2026-09-24T02:22:46.374211,631,2.006908740042296e-06,PROCEED
+run_id,timestamp,grid_carbon_intensity,decision,training_co2,energy_consumed,training_duration
