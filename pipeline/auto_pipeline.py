@@ -13,7 +13,7 @@ if drift_detected(report):
 
     print("\nDrift detected -> Starting retraining...\n")
 
-    subprocess.run(["python", "train.py"], check=True)
+    subprocess.run(["python3", "train.py"], check=True)
 
     print("\nRetraining completed successfully.")
 
