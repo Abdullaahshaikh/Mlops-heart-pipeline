@@ -1,0 +1,3 @@
+test_case,grid_carbon_intensity,threshold,expected_decision,observed_decision,exit_code,training_executed
+Normal Gate,618,700,PROCEED,PROCEED,0,Yes
+Synthetic DELAY Test,618,500,DELAY,DELAY,1,No
