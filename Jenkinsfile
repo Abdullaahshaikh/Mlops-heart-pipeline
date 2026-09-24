@@ -27,6 +27,13 @@ pipeline {
             }
         }
 
+        stage('Drift Detection & Auto-Retraining') {
+            steps {
+                echo 'Checking data drift...'
+                sh 'python3 -m pipeline.auto_pipeline'
+            }
+        }
+
         stage('Build Docker Image') {
             steps {
                 echo 'Building Docker image...'
