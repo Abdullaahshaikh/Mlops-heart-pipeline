@@ -2,12 +2,6 @@
 __pycache__/
 *.pyc
 *.pkl
-
-cat > .gitignore << 'EOF'
-# Python
-__pycache__/
-*.pyc
-*.pkl
 .ipynb_checkpoints/
 
 # Virtual environment
@@ -19,5 +13,8 @@ env/
 .vscode/
 .idea/
 
-# Data files (optional — agar data nahi push karna to)
-# *.csv
+# Large/local files
+*.zip
+*.exe
+windows-amd64/
+50%/

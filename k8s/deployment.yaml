@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: green-mlops
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: green-mlops
+  template:
+    metadata:
+      labels:
+        app: green-mlops
+    spec:
+      containers:
+        - name: green-mlops
+          image: green-mlops:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 5000
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
