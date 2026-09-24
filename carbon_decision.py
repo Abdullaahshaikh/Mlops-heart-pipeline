@@ -3,14 +3,15 @@ import requests
 import pandas as pd
 from datetime import datetime
 
-df = pd.read_csv("carbon_emissions.csv")
-latest_co2 = df.iloc[-1]["emissions"]
-
 api_key = os.getenv("ELECTRICITY_MAPS_API_KEY")
+
+if not api_key:
+    raise Exception("ELECTRICITY_MAPS_API_KEY is not set")
 
 response = requests.get(
     "https://api.electricitymaps.com/v3/carbon-intensity/latest?zone=IN",
-    headers={"auth-token": api_key}
+    headers={"auth-token": api_key},
+    timeout=15
 )
 
 data = response.json()
@@ -23,18 +24,24 @@ carbon_intensity = data["carbonIntensity"]
 
 decision = "DELAY" if carbon_intensity > 700 else "PROCEED"
 
-print(f"Latest training CO2: {latest_co2:.8e} kg")
+timestamp = datetime.now().isoformat()
+
 print(f"Grid carbon intensity: {carbon_intensity} gCO2eq/kWh")
 print(f"DECISION: {decision}")
 
-log = pd.DataFrame([{
-    "timestamp": datetime.now().isoformat(),
+# Log only the carbon-gate decision.
+gate_log = pd.DataFrame([{
+    "timestamp": timestamp,
     "grid_carbon_intensity": carbon_intensity,
-    "training_co2": latest_co2,
     "decision": decision
 }])
 
-log.to_csv("carbon_aware_emissions.csv", mode="a", header=False, index=False)
+file = "carbon_gate_log.csv"
+
+if os.path.exists(file):
+    gate_log.to_csv(file, mode="a", header=False, index=False)
+else:
+    gate_log.to_csv(file, index=False)
 
 if decision == "DELAY":
     raise SystemExit(1)

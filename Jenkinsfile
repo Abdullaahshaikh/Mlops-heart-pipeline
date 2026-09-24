@@ -27,6 +27,13 @@ pipeline {
             }
         }
 
+        stage('Record Carbon Result') {
+            steps {
+                echo 'Recording carbon-aware experiment result...'
+                sh 'python3 record_carbon_result.py'
+            }
+        }
+
         stage('Drift Detection & Auto-Retraining') {
             steps {
                 echo 'Checking data drift...'
