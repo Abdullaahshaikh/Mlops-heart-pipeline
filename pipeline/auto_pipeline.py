@@ -7,16 +7,15 @@ import subprocess
 
 print("\n===== AUTO PIPELINE STARTED =====\n")
 
-# Run drift detection
 report = detect_drift()
 
-# Check drift condition
 if drift_detected(report):
 
-    print("\nDrift detected -> Starting retraining pipeline...\n")
+    print("\nDrift detected -> Starting retraining...\n")
 
-    # Run retraining script
-    subprocess.run(["python", "pipeline/retrain.py"])
+    subprocess.run(["python", "train.py"], check=True)
+
+    print("\nRetraining completed successfully.")
 
 else:
     print("\nNo drift detected. Model is stable.")
